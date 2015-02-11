@@ -75,11 +75,11 @@ type Logger struct {
 /*
    Log emits this message to the log stream.
 */
-func (l *Logger) Log(out string) {
+func (l *Logger) Log(v ...interface{}) {
 	if l.LogLevel > LEVEL_LOG {
 		return
 	}
-	l.Logger.Print(out)
+	l.Logger.Print(v...)
 }
 
 /*
@@ -97,21 +97,21 @@ func (l *Logger) Logf(format string, args ...interface{}) {
    Logln emits this message to the log stream and adds a new line at the end of
    the message. Similar to fmt.Println.
 */
-func (l *Logger) Logln(out string) {
+func (l *Logger) Logln(v ...interface{}) {
 	if l.LogLevel > LEVEL_LOG {
 		return
 	}
-	l.Logger.Println(out)
+	l.Logger.Println(v...)
 }
 
 /*
    Debug emits this message to the debug stream.
 */
-func (l *Logger) Debug(out string) {
+func (l *Logger) Debug(v ...interface{}) {
 	if l.LogLevel > LEVEL_DEBUG {
 		return
 	}
-	l.Debugger.Print(out)
+	l.Debugger.Print(v...)
 }
 
 /*
@@ -128,21 +128,21 @@ func (l *Logger) Debugf(format string, args ...interface{}) {
    Debugln emits this message to the debug streamand adds a new line at the end of
    the message. Similar to fmt.Println.
 */
-func (l *Logger) Debugln(out string) {
+func (l *Logger) Debugln(v ...interface{}) {
 	if l.LogLevel > LEVEL_DEBUG {
 		return
 	}
-	l.Debugger.Println(out)
+	l.Debugger.Println(v...)
 }
 
 /*
    Error emits this message to the error stream.
 */
-func (l *Logger) Error(out string) {
+func (l *Logger) Error(v ...interface{}) {
 	if l.LogLevel > LEVEL_ERROR {
 		return
 	}
-	l.Errorer.Print(out)
+	l.Errorer.Print(v...)
 }
 
 /*
@@ -159,11 +159,33 @@ func (l *Logger) Errorf(format string, args ...interface{}) {
    Error emits this message to the error stream and adds a new line at the end of the
    message. Similar to fmt.Println.
 */
-func (l *Logger) Errorln(out string) {
+func (l *Logger) Errorln(v ...interface{}) {
 	if l.LogLevel > LEVEL_ERROR {
 		return
 	}
-	l.Errorer.Println(out)
+	l.Errorer.Println(v...)
+}
+
+/*
+   Fatal will print the message to the error stream and halt the program.
+*/
+func (l *Logger) Fatal(v ...interface{}) {
+	l.Errorer.Fatal(v...)
+}
+
+/*
+   Fatalln is similar to Fatal but adds a new line at the end of the output.
+*/
+func (l *Logger) Fatalln(v ...interface{}) {
+	l.Errorer.Fatalln(v...)
+}
+
+/*
+   Fatalf is similar to Fatal but supports formatting. See fmt.Printf for format
+   instructions.
+*/
+func (l *Logger) Fatalf(format string, v ...interface{}) {
+	l.Errorer.Fatalf(format, v...)
 }
 
 /*

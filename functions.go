@@ -6,14 +6,14 @@ import (
 
 // Log calls the default logger's Log function.
 // Arguments are handled in the manner of fmt.Print.
-func Log(out string) {
-	defaultLogger.Log(out)
+func Log(v ...interface{}) {
+	defaultLogger.Log(v...)
 }
 
 // Logln calls the default logger's Logln function.
 // Arguments are handled in the manner of fmt.Println.
-func Logln(out string) {
-	defaultLogger.Logln(out)
+func Logln(v ...interface{}) {
+	defaultLogger.Logln(v...)
 }
 
 // Logf calls the default logger's Logf function.
@@ -24,14 +24,14 @@ func Logf(format string, args ...interface{}) {
 
 // Debug calls the default logger's Debug function.
 // Arguments are handled in the manner of fmt.Print.
-func Debug(out string) {
-	defaultLogger.Debug(out)
+func Debug(v ...interface{}) {
+	defaultLogger.Debug(v...)
 }
 
 // Debugln calls the default logger's Debugln function.
 // Arguments are handled in the manner of fmt.Println.
-func Debugln(out string) {
-	defaultLogger.Debugln(out)
+func Debugln(v ...interface{}) {
+	defaultLogger.Debugln(v...)
 }
 
 // Debugf calls the default logger's Debugf function.
@@ -42,20 +42,38 @@ func Debugf(format string, args ...interface{}) {
 
 // Error calls the default logger's Error function.
 // Arguments are handled in the manner of fmt.Print.
-func Error(out string) {
-	defaultLogger.Error(out)
+func Error(v ...interface{}) {
+	defaultLogger.Error(v...)
 }
 
 // Errorln calls the default logger's Errorln function.
 // Arguments are handled in the manner of fmt.Println.
-func Errorln(out string) {
-	defaultLogger.Errorln(out)
+func Errorln(v ...interface{}) {
+	defaultLogger.Errorln(v...)
 }
 
 // Errorf calls the default logger's Errorf function.
 // Arguments are handled in the manner of fmt.Printf.
 func Errorf(format string, args ...interface{}) {
 	defaultLogger.Errorf(format, args...)
+}
+
+// Fatal calls the default logger's Fatal function.
+// Arguments are handled in the manner of fmt.Print.
+func Fatal(v ...interface{}) {
+	defaultLogger.Fatal(v...)
+}
+
+// Fatalln calls the default logger's Fatalln function.
+// Arguments are handled in the manner of fmt.Println.
+func Fatalln(v ...interface{}) {
+	defaultLogger.Fatalln(v...)
+}
+
+// Fatalf calls the default logger's Fatalf function.
+// Arguments are handled in the manner of fmt.Printf.
+func Fatalf(format string, args ...interface{}) {
+	defaultLogger.Fatalf(format, args...)
 }
 
 // SetDebugOutput replaces the debug stream output of the default logger.

@@ -39,4 +39,10 @@ func main() {
 
 ## Interface
 
-Loggers support the `Debug(f|ln)?`, `Log(f|ln)?` and `Error(f|ln)?` functions which handle their arguments in the way `fmt.Print(f|ln)?` does. For more info see [the documentation](godoc.org/github.com/ironsmile/logger).
+Loggers support the `Debug(f|ln)?`, `Log(f|ln)?`, `Error(f|ln)?` and `Fatal(f|ln)?` functions which handle their arguments in the way `fmt.Print(f|ln)?` does. For more info see [the documentation](godoc.org/github.com/ironsmile/logger).
+
+## Fatal functions
+
+They do not have their own output stream but use the error stream. So there is no function `SetFatalOutput` and there is no property `Fataller` in the logger struct.
+
+Underneath they actually use the [log.Fatal](http://golang.org/pkg/log/#Fatal) functions which means a call to `logger.Fatal(f|ln)?` will print the message and halt the program.
