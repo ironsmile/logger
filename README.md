@@ -30,7 +30,10 @@ func main() {
     outFile, _ := os.Create("/tmp/file.log")
     lgFile := logger.New()
     lgFile.SetLogOutput(outFile)
-    lgFile("This will be written in the log file")
+    lgFile.Log("This will be written in the log file")
+
+    lgFile.SetErrorOutput(os.Stdout)
+    lgFile.Errorln("This will be in the standard output")
 }
 ```
 
