@@ -4,6 +4,8 @@ This is a simple layer on top of the [standard log package](https://golang.org/p
 
 The goal of this library is to be as simple as possible to use. It only adds the feature mentioned in the previous paragraph and nothing else.
 
+You can see [this package's documentation at godoc.org](https://godoc.org/github.com/ironsmile/logger). It is much more than what you will find in this README.
+
 ## Usage
 
 Logging is as simple as 
