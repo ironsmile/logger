@@ -15,18 +15,18 @@ func ExampleLogger() {
 	lg.Debugger.SetFlags(0)
 
 	// Now all types of messages will be outputed.
-	lg.LogLevel = logger.LEVEL_DEBUG
+	lg.LogLevel = logger.LevelDebug
 
-	lg.Debugf("debug myself and you will be %d time stronger", 42)
+	lg.Debugf("debug yourself and you will be %d time stronger", 42)
 	// Output:
-	// debug myself and you will be 42 time stronger
+	// debug yourself and you will be 42 time stronger
 }
 
 func ExampleLogger_configuration() {
 	lg := logger.New()
 
 	// Increase this logger's verbosity
-	lg.LogLevel = logger.LEVEL_DEBUG
+	lg.LogLevel = logger.LevelDebug
 
 	// Lets be sure all error messages have the '[ERROR] ' string in front of them
 	lg.Errorer.SetPrefix("[ERROR] ")
@@ -44,7 +44,7 @@ func ExampleLogger_configuration() {
 func Example_default_logger() {
 	logger.Default().Debugger.SetFlags(0)
 	logger.Default().Debugger.SetPrefix("level.debug: ")
-	logger.SetLevel(logger.LEVEL_DEBUG)
+	logger.SetLevel(logger.LevelDebug)
 	logger.SetDebugOutput(os.Stdout)
 
 	logger.Debugln("the default may be more than you need")

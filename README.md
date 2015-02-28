@@ -4,7 +4,7 @@ This is a simple layer on top of the [standard log package](http://golang.org/pk
 
 The goal of this library is to be as simple as possible to use. It only adds the feature mentioned in the previous paragraph and nothing else.
 
-## Examples
+## Usage
 
 Logging is as simple as 
 
@@ -15,7 +15,7 @@ import (
 
 func main() {
     logger.Errorf("I have an %d errors", 5)
-    logger.SetLevel(logger.LEVEL_DEBUG)
+    logger.SetLevel(logger.LevelDebug)
     logger.Debugln("A debug with a new line")
 }
 ```
