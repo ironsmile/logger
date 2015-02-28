@@ -1,14 +1,24 @@
 /*
    Package logger delivers a tiered loggin mechanics. It is a thin wrapper above the
-   standard library's log package. Logger gives you the ability to separate your logs
-   in 3 types: debug, log and error.
+   standard library's log package. Its main purpose is to give the developer separate
+   log streams and logging severity levels. There are 3 types of streams: debug,
+   log and error and 4 levels of logging: LevelDebug, LevelLog, LevelError and
+   LevelNoLog.
 
-   For fine tuning your loggers you will need to import the log package and use the
-   Logger.Debugger, Logger.Logger and Logger.Errorer objects which are just instances
+   Users of the package will interact with its Logger type. It supports the
+   Debug(f|ln)?, Log(f|ln)?, Error(f|ln)? and Fatal(f|ln)? functions
+   which handle their arguments in the way fmt.Print(f|ln)? do.
+
+   Every Logger has its own log level. See the constants section for information how
+   to use this level.
+
+   For fine tuning loggers users will need to import the log package and use the
+   Logger.Debugger, Logger.Logger and Logger.Errorer which are just instances
    of log.Logger.
 
    The package supplies a default logger and a shorthand functions for using it.
-   They are similar to the log's default package level functions.
+   The default logger is created autmatically with its debug, log and error streams
+   using stdout, stound and stderr respectively. Its logging level is set to LevelLog.
 */
 package logger
 
@@ -23,7 +33,7 @@ import (
    a strict ascending order. If the level of a logger is set at particular constant
    it will only emit messages in the streams for this constant's level and above.
 
-   For example if a logger has its LogLevel set to LevelLog it will emit messages
+   For example if a logger has its Level set to LevelLog it will emit messages
    in its log and error streams but will not emit anything in the debug stream.
 
    A special level LevelNoLog may be used in order to silence the logger completely.
@@ -69,14 +79,14 @@ type Logger struct {
 	   Which Log Level this Logger is using. See the descrption of the
 	   log level constants to understend what this means.
 	*/
-	LogLevel int
+	Level int
 }
 
 /*
    Log emits this message to the log stream.
 */
 func (l *Logger) Log(v ...interface{}) {
-	if l.LogLevel > LevelLog {
+	if l.Level > LevelLog {
 		return
 	}
 	l.Logger.Print(v...)
@@ -87,7 +97,7 @@ func (l *Logger) Log(v ...interface{}) {
    See fmt.Printf for details on the formatting options.
 */
 func (l *Logger) Logf(format string, args ...interface{}) {
-	if l.LogLevel > LevelLog {
+	if l.Level > LevelLog {
 		return
 	}
 	l.Logger.Printf(format, args...)
@@ -98,7 +108,7 @@ func (l *Logger) Logf(format string, args ...interface{}) {
    the message. Similar to fmt.Println.
 */
 func (l *Logger) Logln(v ...interface{}) {
-	if l.LogLevel > LevelLog {
+	if l.Level > LevelLog {
 		return
 	}
 	l.Logger.Println(v...)
@@ -108,7 +118,7 @@ func (l *Logger) Logln(v ...interface{}) {
    Debug emits this message to the debug stream.
 */
 func (l *Logger) Debug(v ...interface{}) {
-	if l.LogLevel > LevelDebug {
+	if l.Level > LevelDebug {
 		return
 	}
 	l.Debugger.Print(v...)
@@ -118,7 +128,7 @@ func (l *Logger) Debug(v ...interface{}) {
    Debugf emits this message to the debug stream. Supports fmt.Printf formatting.
 */
 func (l *Logger) Debugf(format string, args ...interface{}) {
-	if l.LogLevel > LevelDebug {
+	if l.Level > LevelDebug {
 		return
 	}
 	l.Debugger.Printf(format, args...)
@@ -129,7 +139,7 @@ func (l *Logger) Debugf(format string, args ...interface{}) {
    the message. Similar to fmt.Println.
 */
 func (l *Logger) Debugln(v ...interface{}) {
-	if l.LogLevel > LevelDebug {
+	if l.Level > LevelDebug {
 		return
 	}
 	l.Debugger.Println(v...)
@@ -139,7 +149,7 @@ func (l *Logger) Debugln(v ...interface{}) {
    Error emits this message to the error stream.
 */
 func (l *Logger) Error(v ...interface{}) {
-	if l.LogLevel > LevelError {
+	if l.Level > LevelError {
 		return
 	}
 	l.Errorer.Print(v...)
@@ -149,7 +159,7 @@ func (l *Logger) Error(v ...interface{}) {
    Errorf emits this message to the error stream. Supports fmt.Printf formatting.
 */
 func (l *Logger) Errorf(format string, args ...interface{}) {
-	if l.LogLevel > LevelError {
+	if l.Level > LevelError {
 		return
 	}
 	l.Errorer.Printf(format, args...)
@@ -160,7 +170,7 @@ func (l *Logger) Errorf(format string, args ...interface{}) {
    message. Similar to fmt.Println.
 */
 func (l *Logger) Errorln(v ...interface{}) {
-	if l.LogLevel > LevelError {
+	if l.Level > LevelError {
 		return
 	}
 	l.Errorer.Println(v...)
@@ -212,19 +222,24 @@ func (l *Logger) SetLogOutput(w io.Writer) {
 	l.Logger = log.New(w, l.Logger.Prefix(), l.Logger.Flags())
 }
 
-// New creates and returns a new Logger. Its debug and log streams
-// are stdout and its error stream is stderr.
-// The returned logger will have log level set to LevelLog.
+/*
+   New creates and returns a new Logger. Its debug and log streams
+   are stdout and its error stream is stderr.
+   The returned logger will have log level set to LevelLog.
+*/
 func New() *Logger {
 	l := &Logger{}
 	l.Debugger = log.New(os.Stdout, "[DEBUG] ", log.LstdFlags)
 	l.Logger = log.New(os.Stdout, "[LOG] ", log.LstdFlags)
 	l.Errorer = log.New(os.Stderr, "[ERROR] ", log.LstdFlags)
-	l.LogLevel = LevelLog
+	l.Level = LevelLog
 	return l
 }
 
-// Default returns a pointer to the default Logger.
+/*
+   Default returns a pointer to the default Logger. Using it users can configure
+   the behaviour of it.
+*/
 func Default() *Logger {
 	return defaultLogger
 }

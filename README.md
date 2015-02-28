@@ -37,9 +37,40 @@ func main() {
 }
 ```
 
+You can take a look at the [example file](logger_test.go) which showcases different usage scenarios.
+
 ## Interface
 
-Loggers support the `Debug(f|ln)?`, `Log(f|ln)?`, `Error(f|ln)?` and `Fatal(f|ln)?` functions which handle their arguments in the way `fmt.Print(f|ln)?` does. For more info see [the documentation](godoc.org/github.com/ironsmile/logger).
+Loggers support the `Debug(f|ln)?`, `Log(f|ln)?`, `Error(f|ln)?` and `Fatal(f|ln)?` functions which handle their arguments in the way `fmt.Print(f|ln)?` do. For more info regarding their arguments see [the documentation](godoc.org/github.com/ironsmile/logger).
+
+A Logger is made up of 3 different exported [log.Logger](http://golang.org/pkg/log/#Logger) instances. Every one of them represents a logging stream. The `Logger` structure looks like this:
+
+```go
+type Logger struct {
+    Debugger *log.Logger
+    Logger   *log.Logger
+    Errorer  *log.Logger
+    Level    int
+}
+```
+
+As expected `Debugger` represents the debug stream, `Logger` - the logging and `Errorer` - the log stream. Being exported they can be used directly, possibly for configuration.
+
+## Logging Levels
+
+Every Logger has a log level. There are 4 possible levels - LevelDebug, LevelLog, LevelError, LevelNoLog. See the [package documentation](http://godoc.org/github.com/ironsmile/logger#pkg-constants) for information on their usage.
+
+## Configuration
+
+Use [SetDebugOutput](http://godoc.org/github.com/ironsmile/logger#Logger.SetDebugOutput), [SetLogOutput](http://godoc.org/github.com/ironsmile/logger#Logger.SetLogOutput) and [SetErrorOutput](http://godoc.org/github.com/ironsmile/logger#Logger.SetErrorOutput) to change the stream destination.
+
+You can change the logging level by setting the Level property of a logger:
+```go
+lg := logger.New()
+lg.Level = logger.LevelDebug
+```
+
+For everything else you can access the underlying [log.Logger](http://golang.org/pkg/log/#Logger) instances directly.
 
 ## Fatal functions
 

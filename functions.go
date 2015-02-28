@@ -93,5 +93,5 @@ func SetLogOutput(w io.Writer) {
 
 // SetLevel sets the log level of the default logger.
 func SetLevel(level int) {
-	defaultLogger.LogLevel = level
+	defaultLogger.Level = level
 }
